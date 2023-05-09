@@ -82,17 +82,26 @@ class Tes_kerjakan extends Tes_Controller {
                     $data['tes_soal_jml'] = $data_soal['tes_soal_jml'];
 
                     // Mengambil data soal ke 1
-                    $tessoal = $this->cbt_tes_soal_model->get_by_testuser_limit($query_tes->tesuser_id, 1)->row();
+                    $tessoal = $this->cbt_tes_soal_model->get_by_testuser_cermat_limit($query_tes->tesuser_id, 1)->row();
+
                     $data_soal = $this->get_soal($tessoal->tessoal_id, $query_tes->tesuser_id);
 
                     $data['tes_soal'] = $data_soal['tes_soal'];
                     $data['tes_ragu'] = $data_soal['tes_ragu'];
                     $data['tes_kecermatan_soal'] = $data_soal['tes_kecermatan_soal'];
                     $data['tes_soal_tipe'] = $data_soal['tes_soal_tipe'];
-                    
 
-                    $data['tes_kecermatan_minute'] = $data_soal['tes_kecermatan_minute'];
-                    
+
+                    $tanggal_tes_soal = new DateTime($data_soal['tes_display_cermat_time']);
+                    $tanggal_diff_soal = $tanggal_tes_soal->diff($tanggal);
+
+                    $detik_berjalan_soal = ($tanggal_diff_soal->h*60*60)+($tanggal_diff_soal->i*60)+$tanggal_diff_soal->s;
+                    if($tanggal>=$tanggal_tes_soal){
+                        $data['tes_kecermatan_minute'] = ($data_soal['tes_kecermatan_minute']*60)-$detik_berjalan_soal;
+                    // jika time creation lebih besar dari tanggal saat ini
+                    }else{
+                        $data['tes_kecermatan_minute'] = ($data_soal['tes_kecermatan_minute']*60)+$detik_berjalan_soal;
+                    }
                     $data['tes_soal_id'] = $tessoal->tessoal_id;
                     $data['tes_soal_nomor'] = $tessoal->tessoal_order;
                     
@@ -409,6 +418,7 @@ class Tes_kerjakan extends Tes_Controller {
      */
     function get_soal_by_tessoal($tessoal_id=null, $tesuser_id=null){
         $data['data'] = 0;
+        $tanggal = new DateTime();
         if(!empty($tessoal_id) AND !empty($tesuser_id)){
             $data_soal = $this->get_soal($tessoal_id, $tesuser_id);
             $data['data'] = $data_soal['data'];
@@ -418,9 +428,24 @@ class Tes_kerjakan extends Tes_Controller {
                 $data['tes_soal_id'] = $data_soal['tes_soal_id'];
                 $data['tes_soal_tipe'] = $data_soal['tes_soal_tipe'];
                 $data['tes_soal_nomor'] = $data_soal['tes_soal_nomor'];
-                $data['tes_kecermatan_minute'] = $data_soal['tes_kecermatan_minute'];
-                $data['tes_kecermatan_soal'] = json_decode($data_soal['tes_kecermatan_soal']);
+                $tanggal_tes_soal = new DateTime($data_soal['tes_display_cermat_time']);
+                $tanggal_diff_soal = $tanggal_tes_soal->diff($tanggal);
+                $detik_berjalan_soal = ($tanggal_diff_soal->h*60*60)+($tanggal_diff_soal->i*60)+$tanggal_diff_soal->s;
+                if($tanggal>=$tanggal_tes_soal){
+                    $data['tes_kecermatan_minute'] = ($data_soal['tes_kecermatan_minute']*60)-$detik_berjalan_soal;
+                // jika time creation lebih besar dari tanggal saat ini
+                }else{
+                    $data['tes_kecermatan_minute'] = ($data_soal['tes_kecermatan_minute']*60)+$detik_berjalan_soal;
+                }
+                
+                if($data_soal['tes_soal_tipe'] == 4 && !empty($data_soal['tes_change_time'])){
+                    $data['pesan'] = 'Soal Sudah dikerjakan';
+                    $data['data'] = 0;
+                    echo json_encode($data);
+                    exit;
+                }
 
+                $data['tes_kecermatan_soal'] = json_decode($data_soal['tes_kecermatan_soal']);
             }
         }
 
@@ -514,9 +539,16 @@ class Tes_kerjakan extends Tes_Controller {
 
                     // Soal Ragu-ragu
                     $data['tes_ragu'] = $query_soal->tessoal_ragu;
+                    $data['tes_display_cermat_time'] = $query_soal->tessoal_display_cermaat_time;
+                    $data['tes_change_time'] = $query_soal->tessoal_change_time;
+                    
                     $data['tes_soal_tipe'] = $query_soal->soal_tipe;
                     // Mengupdate tessoal_display_time pada table test_log
                     $data_tes_soal['tessoal_display_time'] = date('Y-m-d H:i:s');
+                    if($query_soal->soal_tipe == 4){
+                        $data_tes_soal_cermat['tessoal_display_cermaat_time'] = date('Y-m-d H:i:s');
+                        $this->db->where('tessoal_display_cermaat_time is NULL', NULL, FALSE)->where('tessoal_id',$tessoal_id)->update('cbt_tes_soal',$data_tes_soal_cermat);
+                    }
                     $this->cbt_tes_soal_model->update('tessoal_id', $tessoal_id, $data_tes_soal);
                     
                     // mengganti [baseurl] ke alamat sesungguhnya

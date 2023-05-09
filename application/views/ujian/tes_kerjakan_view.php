@@ -120,7 +120,7 @@
 
 <script type="text/javascript">
     let pilihanKecermatan = <?=!empty($tes_kecermatan_soal)?$tes_kecermatan_soal:'{}';?>;
-    var cermatMinute = <?=!empty($tes_kecermatan_minute)?60*$tes_kecermatan_minute:0;?>;
+    var cermatMinute = <?=!empty($tes_kecermatan_minute)?$tes_kecermatan_minute:0;?>;
     var posisi_soal_nomor = parseInt($('#tes-soal-nomor').val());
     let countDownCermat;
     let jawabanCermat = {};
@@ -238,7 +238,7 @@
                 var data = $.parseJSON(respon);
                 if(data.data==1){
                     pilihanKecermatan = data.tes_kecermatan_soal;
-                    cermatMinute = (60*parseFloat(data.tes_kecermatan_minute));
+                    cermatMinute = parseFloat(data.tes_kecermatan_minute);
 
                     $('#tes-soal-id').val(data.tes_soal_id);
                     $('#tes-soal-nomor').val(data.tes_soal_nomor);
@@ -276,11 +276,18 @@
                         clearInterval(countDownCermat);
                         jawabanCermat = {};
                     }
-                       
-                    
 
                 }else if(data.data==2){
                     window.location.reload();
+                }else{
+                    if(data.tes_soal_tipe == 4){
+                        clearInterval(countDownCermat);
+                        countDownCermat = setInterval(timeCermat, 1000);
+                    }else{
+                        clearInterval(countDownCermat);
+                        jawabanCermat = {};
+                    }
+                    notify_error(data.pesan);
                 }
                 $("#modal-proses").modal('hide');
             },
@@ -308,7 +315,6 @@
             if(!jawabanCermat['soal-jawaban']){
                 jawabanCermat['soal-jawaban'] = [0,1,2,3];
             }
-            console.log(jawabanCermat);
             if((posisi_soal_nomor>=1 && posisi_soal_nomor<=tes_soal_jml)){
                 jawab();
                 $('#btn-soal-'+posisi_soal_nomor).trigger('click');
@@ -385,7 +391,6 @@
                     pilihanKecermatan[clicksKecermatan].jawaban_saya = 'E';
                 }
                 jawabanCermat['soal-jawaban'] = pilihanKecermatan;
-                console.log(pilihanKecermatan);
                 clicksKecermatan += 1;
             }else{
                 var tes_soal_jml = parseInt($('#tes-soal-jml').val());

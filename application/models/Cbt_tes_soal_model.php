@@ -86,9 +86,21 @@ class Cbt_tes_soal_model extends CI_Model{
                  ->limit($limit);
         return $this->db->get();
     }
-
+    function get_by_testuser_cermat_limit($tesuser_id, $limit){
+        $this->db->where('tessoal_tesuser_id="'.$tesuser_id.'"')
+                //  ->group_start()
+                //     ->where('tessoal_change_time is NULL', NULL, FALSE)
+                //     ->or_where('tessoal_change_time is NOT NULL')
+                //  ->group_end()
+                 ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
+                 ->from($this->table)
+                 ->order_by('tessoal_change_time', 'DESC')
+                 ->order_by('tessoal_order', 'ASC')
+                 ->limit($limit);
+        return $this->db->get();
+    }
     function get_by_tessoal_limit($tessoal_id, $limit){
-        $this->db->select('tessoal_id,tessoal_tesuser_id,tessoal_user_ip,tessoal_soal_id,tessoal_jawaban_text,tessoal_nilai,tessoal_ragu,tessoal_creation_time,tessoal_display_time,tessoal_change_time,tessoal_reaction_time,tessoal_order,tessoal_num_answers,tessoal_comment,tessoal_audio_play,soal_id,soal_topik_id,soal_detail,soal_tipe,soal_kunci,soal_difficulty,soal_aktif,soal_audio,soal_audio_play,soal_timer,soal_inline_answers,soal_auto_next,soal_cermat_a,soal_cermat_b,soal_cermat_c,soal_cermat_d,soal_cermat_e,soal_cermat_time')
+        $this->db->select('tessoal_display_cermaat_time,tessoal_id,tessoal_tesuser_id,tessoal_user_ip,tessoal_soal_id,tessoal_jawaban_text,tessoal_nilai,tessoal_ragu,tessoal_creation_time,tessoal_display_time,tessoal_change_time,tessoal_reaction_time,tessoal_order,tessoal_num_answers,tessoal_comment,tessoal_audio_play,soal_id,soal_topik_id,soal_detail,soal_tipe,soal_kunci,soal_difficulty,soal_aktif,soal_audio,soal_audio_play,soal_timer,soal_inline_answers,soal_auto_next,soal_cermat_a,soal_cermat_b,soal_cermat_c,soal_cermat_d,soal_cermat_e,soal_cermat_time')
                  ->where('tessoal_id="'.$tessoal_id.'"')
                  ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
                  ->from($this->table)

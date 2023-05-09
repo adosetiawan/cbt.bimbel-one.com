@@ -96,6 +96,9 @@ class Tes_hasil extends Member_Controller {
             	foreach( $tesuser_id as $kunci => $isi ) {
                     if($isi=="on"){
                     	$data_tes['tesuser_status']=1;
+						$data_tessoal['tessoal_change_time']=NULL;
+						$data_tessoal['tessoal_display_cermaat_time']=NULL;
+            			$this->cbt_tes_soal_model->update('tessoal_tesuser_id', $kunci, $data_tessoal);
             			$this->cbt_tes_user_model->update('tesuser_id', $kunci, $data_tes);
                     }
                 }
