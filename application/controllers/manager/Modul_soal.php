@@ -130,6 +130,7 @@ class Modul_soal extends Member_Controller {
 			$this->form_validation->set_rules('cermat-C', 'Soal Cermat C','required');
 			$this->form_validation->set_rules('cermat-D', 'Soal Cermat D','required');
 			$this->form_validation->set_rules('cermat-C', 'Soal Cermat C','required');
+			$this->form_validation->set_rules('cermat-time-minute', 'Menit','required');
 		}
 
         if($this->form_validation->run() == TRUE){
@@ -200,6 +201,7 @@ class Modul_soal extends Member_Controller {
 	        	$data['soal_cermat_c'] = $this->input->post('cermat-C', TRUE);
 	        	$data['soal_cermat_d'] = $this->input->post('cermat-D', TRUE);
 	        	$data['soal_cermat_e'] = $this->input->post('cermat-E', TRUE);
+	        	$data['soal_cermat_time'] = $this->input->post('cermat-time-minute', TRUE);
 
 	        	$upload = 0;
 	        	if(!empty($audio)){
@@ -311,6 +313,14 @@ class Modul_soal extends Member_Controller {
 				$data['audio'] = $query->soal_audio;
 				$data['putar'] = $query->soal_audio_play;
 				$data['id_topik'] = $query->soal_topik_id;
+
+				$data['cermat_a'] = $query->soal_cermat_a;
+				$data['cermat_b'] = $query->soal_cermat_b;
+				$data['cermat_c'] = $query->soal_cermat_c;
+				$data['cermat_d'] = $query->soal_cermat_d;
+				$data['cermat_e'] = $query->soal_cermat_e;
+				$data['cermat_time'] = $query->soal_cermat_time;
+
 			}
 		}
 		echo json_encode($data);
@@ -404,11 +414,14 @@ class Modul_soal extends Member_Controller {
 			$record[] = ++$i;
 
 			if($temp->soal_tipe == 4){
-				$soal = '<table border="1" cellspacing="0" style="width:530.9pt">
+				$soal = '<table border="1" cellspacing="0" style="width:730.9pt">
 							<tbody>
 								<tr>
-									<td colspan="5" style="vertical-align:top; width:93.5pt">
-									<h1 style="text-align: center;"><strong>KOLOM 1</strong></h1>
+									<td colspan="5" style="vertical-align:top; width:80%">
+										<h1 style="text-align: center;"><strong>KOLOM </strong></h1>
+									</td>
+									<td style="width:18.7pt;background:#3c8dbc;width:20%">
+										<h4 style="text-align: center;"><strong>MINUTE</strong></h4>
 									</td>
 								</tr>
 								<tr>
@@ -427,6 +440,9 @@ class Modul_soal extends Member_Controller {
 									<td style="width:18.7pt">
 									<h1 style="text-align: center;"><strong>'.$temp->soal_cermat_e.'</strong></h1>
 									</td>
+									<td style="width:18.7pt">
+										<h1 style="text-align: center;"><strong>'.$temp->soal_cermat_time.'</strong></h1>
+									</td>
 								</tr>
 								<tr>
 									<td style="width:18.7pt">
@@ -443,6 +459,9 @@ class Modul_soal extends Member_Controller {
 									</td>
 									<td style="width:18.7pt">
 									<h4 style="text-align: center;"><strong>E</strong></h4>
+									</td>
+									<td style="width:18.7pt;background:#3c8dbc;">
+										<h4 style="text-align: center;"><strong>MINUTE</strong></h4>
 									</td>
 								</tr>
 							</tbody>

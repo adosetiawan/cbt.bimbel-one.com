@@ -42,9 +42,11 @@
                 </div><!-- /.box-body -->
                 <div class="box-footer">
                     <button type="button" class="btn btn-default hide" id="btn-sebelumnya">Soal Sebelumnya</button>&nbsp;&nbsp;&nbsp;
-                    <div class="btn btn-warning" id="btn-ragu" onclick="ragu()">
+                    
+                <div class="btn btn-warning" id="btn-ragu" onclick="ragu()">
                         <input type="checkbox" style="width:10px;height:10px;" name="btn-ragu-checkbox" id="btn-ragu-checkbox" <?php if(!empty($tes_ragu)){ echo "checked"; } ?> /> Ragu-ragu
                     </div>&nbsp;&nbsp;&nbsp;
+
                     <button type="button" class="btn btn-default" id="btn-selanjutnya">Soal Selanjutnya</button>
                 </div>
             </div><!-- /.box -->
@@ -118,8 +120,17 @@
 
 <script type="text/javascript">
     let pilihanKecermatan = <?=!empty($tes_kecermatan_soal)?$tes_kecermatan_soal:'{}';?>;
+    var cermatMinute = <?=!empty($tes_kecermatan_minute)?60*$tes_kecermatan_minute:0;?>;
+    var posisi_soal_nomor = parseInt($('#tes-soal-nomor').val());
+    let countDownCermat;
     let jawabanCermat = {};
-    console.log(pilihanKecermatan);
+
+   <?php if(!empty($tes_soal_tipe) && $tes_soal_tipe == 4){?>
+            countDownCermat = setInterval(timeCermat, 1000);
+   <?php }?>
+    
+
+//console.log(timer)
     function zoombesar(){
         $('#isi-tes-soal').css("font-size", "140%");
         $('#isi-tes-soal').css("line-height", "140%");
@@ -129,6 +140,10 @@
         $('#isi-tes-soal').css("font-size", "15px");
         $('#isi-tes-soal').css("line-height", "110%");
     }
+    
+
+
+    //$('#test-timer-minute').html('00:60:00');
 
     function ragu(){
         $("#modal-proses").modal('show');
@@ -223,7 +238,8 @@
                 var data = $.parseJSON(respon);
                 if(data.data==1){
                     pilihanKecermatan = data.tes_kecermatan_soal;
-                    console.log(pilihanKecermatan)
+                    cermatMinute = (60*parseFloat(data.tes_kecermatan_minute));
+
                     $('#tes-soal-id').val(data.tes_soal_id);
                     $('#tes-soal-nomor').val(data.tes_soal_nomor);
                     $('#isi-tes-soal').html(data.tes_soal);
@@ -253,6 +269,15 @@
                         $('#btn-sebelumnya').removeClass('hide');
                         $('#btn-selanjutnya').removeClass('hide');
                     }
+                    if(data.tes_soal_tipe == 4){
+                        clearInterval(countDownCermat);
+                        countDownCermat = setInterval(timeCermat, 1000);
+                    }else{
+                        clearInterval(countDownCermat);
+                        jawabanCermat = {};
+                    }
+                       
+                    
 
                 }else if(data.data==2){
                     window.location.reload();
@@ -270,7 +295,33 @@
             }
         });
     }
-
+    function timeCermat(){
+        minutes = parseInt(cermatMinute / 60, 10);
+        seconds = parseInt(cermatMinute % 60, 10);
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        //display.textContent = minutes + ":" + seconds;
+        $('#test-timer-minute').html(minutes + ":" + seconds);
+        if (--cermatMinute < 0) {
+            var tes_soal_jml = parseInt($('#tes-soal-jml').val());
+            posisi_soal_nomor += 1;
+            if(!jawabanCermat['soal-jawaban']){
+                jawabanCermat['soal-jawaban'] = [0,1,2,3];
+            }
+            console.log(jawabanCermat);
+            if((posisi_soal_nomor>=1 && posisi_soal_nomor<=tes_soal_jml)){
+                jawab();
+                $('#btn-soal-'+posisi_soal_nomor).trigger('click');
+                clicksKecermatan = 0;
+            }else if(posisi_soal_nomor == (tes_soal_jml+1)){
+                jawab();
+                clicksKecermatan = 0;
+                cermat_hentikan_tes();
+                //cermatMinute = 0;
+            }
+           clearInterval(countDownCermat);
+        }
+    }
     function audio(status){
         var audio_player_status = $('#audio-player-status').val();
         var audio_player_update = $('#audio-player-update').val();
@@ -318,7 +369,10 @@
         if(pilihanKecermatan.length>0){
             if(pilihanKecermatan.length > clicksKecermatan){
                 ({satu,dua,tiga,empat,lima} = pilihanKecermatan[clicksKecermatan+1]?pilihanKecermatan[clicksKecermatan+1]:[]);
-                $('#cermat-jawaban-clue').html(`${satu?satu:'<br>'} ${dua?dua:''} ${tiga?tiga:''} ${empat?empat:''}`);  
+                if(satu){
+                    $('#cermat-jawaban-clue').html(`${satu?satu:'<br>'} ${dua?dua:''} ${tiga?tiga:''} ${empat?empat:''}`);  
+                }
+
                 if(jawaban == 1){
                     pilihanKecermatan[clicksKecermatan].jawaban_saya = 'A';
                 }else if(jawaban == 2){
@@ -334,23 +388,23 @@
                 console.log(pilihanKecermatan);
                 clicksKecermatan += 1;
             }else{
-                var tes_soal_nomor = parseInt($('#tes-soal-nomor').val());
                 var tes_soal_jml = parseInt($('#tes-soal-jml').val());
-                var tes_soal_tujuan = tes_soal_nomor+1;
-                if((tes_soal_tujuan>=1 && tes_soal_tujuan<=tes_soal_jml)){
+                posisi_soal_nomor += 1;
+                if((posisi_soal_nomor>=1 && posisi_soal_nomor<=tes_soal_jml)){
                     clicksKecermatan = 0;
                     jawab();
-                    $('#btn-soal-'+tes_soal_tujuan).trigger('click');
-                }else if(tes_soal_nomor==tes_soal_jml){
+                    $('#btn-soal-'+posisi_soal_nomor).trigger('click');
+                }else if(posisi_soal_nomor == (tes_soal_jml+1)){
                     jawab();
+                    //if(display){
+                        cermatMinute = 0;
+                        cermat_hentikan_tes();
+                    //}
                 }
-                console.log(tes_soal_tujuan);
-                console.log(tes_soal_jml);
-                console.log(pilihanKecermatan);
-
             }
         }
     }
+
     function jawab(){
         $('#form-kerjakan').submit();
     }
@@ -372,7 +426,37 @@
             $("#modal-proses").modal('hide');
         });
     }
-
+    function cermat_hentikan_tes(){
+        $("#modal-proses").modal('show');
+            $.ajax({
+                url:"<?php echo site_url().'/'.$url; ?>/cermat_hentikan_tes",
+                type:"POST",
+                data:{
+                    tesuser_id:$('#tes-user-id').val()
+                },
+                cache: false,
+                timeout: 10000,
+                success:function(respon){
+                    var obj = $.parseJSON(respon);
+                    if(obj.status==1){
+                        window.location.reload();
+                    }else{
+                        $("#modal-proses").modal('hide');
+                        notify_error(obj.pesan);
+                    }
+                },
+                error: function(xmlhttprequest, textstatus, message) {
+                    if(textstatus==="timeout") {
+                        $("#modal-proses").modal('hide');
+                        notify_error("Gagal menghentikan Tes, Silahkan Refresh Halaman");
+                    }else{
+                        $("#modal-proses").modal('hide');
+                        notify_error(textstatus);
+                    }
+                }
+        });
+        return false;
+    }
     function soal_navigasi(navigasi){
         var tes_soal_nomor = parseInt($('#tes-soal-nomor').val());
         var tes_soal_jml = parseInt($('#tes-soal-jml').val());

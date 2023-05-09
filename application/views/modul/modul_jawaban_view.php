@@ -369,7 +369,6 @@
     $('#form-pilihan-jawaban').delegate('td input','keyup',function(e){
         if (this.value.length == this.maxLength) {
             $(this).parent().next('input').focus();
-             console.log($(this).next('input'))
         }
     //     if(first.value.length){
     //     document.getElementById(last).focus();

@@ -66,24 +66,31 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="5" style="vertical-align:top; width:93.5pt">
-                                        <h1 style="text-align: center;"><strong>KOLOM 1</strong></h1>
+                                        <h1 style="text-align: center;"><strong>KOLOM </strong></h1>
+                                        </td>
+                                        <td style="background:#3c8dbc">
+                                        <h4 style="text-align: center;"><strong>MINUTE</strong></h4>
+                                        </td>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" id="A" onkeyup="clickEvent(this,'B')"  name="cermat-A" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-B')"  name="cermat-A" id="tambah-cermat-A" maxlength="1">
                                         </td>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" id="B" onkeyup="clickEvent(this,'C')"  name="cermat-B" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-C')"  name="cermat-B" id="tambah-cermat-B" maxlength="1">
                                         </td>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" id="C" onkeyup="clickEvent(this,'D')"  name="cermat-C" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-D')"  name="cermat-C" id="tambah-cermat-C" maxlength="1">
                                         </td>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" id="D" onkeyup="clickEvent(this,'E')"  name="cermat-D" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-E')"  name="cermat-D" id="tambah-cermat-D" maxlength="1">
                                         </td>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" id="E" onkeyup="clickEvent(this,'E')"  name="cermat-E" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'cermat-time-minute')"  name="cermat-E" id="tambah-cermat-E" maxlength="1">
+                                        </td>
+                                        <td style="width:100px;background:#3c8dbc;">
+                                            <input type="number" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;background:#3c8dbc;" onkeyup="clickEvent(this,'cermat-time-minute')"  name="cermat-time-minute" id="cermat-time-minute" maxlength="1">
                                         </td>
                                     </tr>
                                     <tr>
@@ -101,6 +108,9 @@
                                         </td>
                                         <td style="width:18.7pt">
                                         <h4 style="text-align: center;"><strong>E</strong></h4>
+                                        </td>
+                                        <td style="width:18.7pt;background:#3c8dbc;">
+                                            <h4 style="text-align: center;"><strong>MINUTE</strong></h4>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -363,6 +373,14 @@
                 $('#tambah-topik-id').val(data.id_topik);
                 $('#tambah-soal-id').val(data.id);
                 $('#tambah-putar').val(data.putar);
+
+                $('#tambah-cermat-A').val(data.cermat_a);
+                $('#tambah-cermat-B').val(data.cermat_b);
+                $('#tambah-cermat-C').val(data.cermat_c);
+                $('#tambah-cermat-D').val(data.cermat_d);
+                $('#tambah-cermat-E').val(data.cermat_e);
+                $('#cermat-time-minute').val(data.cermat_time);
+
                 $('#tambah-audio').val('');
 				$('#tambah-kesulitan').val(data.kesulitan);
                 $('#tambah-nama-audio').val(data.audio);

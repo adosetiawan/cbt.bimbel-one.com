@@ -88,6 +88,11 @@ class Tes_kerjakan extends Tes_Controller {
                     $data['tes_soal'] = $data_soal['tes_soal'];
                     $data['tes_ragu'] = $data_soal['tes_ragu'];
                     $data['tes_kecermatan_soal'] = $data_soal['tes_kecermatan_soal'];
+                    $data['tes_soal_tipe'] = $data_soal['tes_soal_tipe'];
+                    
+
+                    $data['tes_kecermatan_minute'] = $data_soal['tes_kecermatan_minute'];
+                    
                     $data['tes_soal_id'] = $tessoal->tessoal_id;
                     $data['tes_soal_nomor'] = $tessoal->tessoal_order;
                     
@@ -132,7 +137,27 @@ class Tes_kerjakan extends Tes_Controller {
         
         echo json_encode($status);
     }
+    function cermat_hentikan_tes(){
+        $this->load->library('form_validation');
+        
+        $this->form_validation->set_rules('tesuser_id', 'Tes User','required|strip_tags');
+        
+        if($this->form_validation->run() == TRUE){
+            $tesuser_id = $this->input->post('tesuser_id', TRUE);
+            
+            $data_tes['tesuser_status']=4;
+            $this->cbt_tes_user_model->update('tesuser_id', $tesuser_id, $data_tes);
 
+            $status['status'] = 1;
+            $status['pesan'] = "Tes berhasil dihentikan";   
+            
+        }else{
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
+        }
+        
+        echo json_encode($status);
+    }
     /**
      * Menyimpan jawaban yang dipilih oleh User
      */
@@ -240,40 +265,43 @@ class Tes_kerjakan extends Tes_Controller {
                      
                         if(count($jawaban)>0){
                             foreach($jawaban as $temp){
-                                $queryJawabSoal = $this->db->get_where('cbt_jawaban',['jawaban_id'=>$temp['jawaban_id']])->row();
-                                if($temp['jawaban_saya'] == 'A'){
-                                    $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_a;
-                                }elseif($temp['jawaban_saya'] == 'B'){
-                                    $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_b;
-                                }elseif($temp['jawaban_saya'] == 'C'){
-                                    $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_c;
-                                }elseif($temp['jawaban_saya'] == 'D'){
-                                    $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_d;
-                                }elseif($temp['jawaban_saya'] == 'E'){
-                                    $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_e;
-                                }else{
-                                    $jawabaSaya['jawaban_cermat_5'] = '';
+                                if(isset($temp['jawaban_id'])&&!empty($temp['jawaban_id'])){
+                                    $queryJawabSoal = $this->db->get_where('cbt_jawaban',['jawaban_id'=>$temp['jawaban_id']])->row();
+                                    if($temp['jawaban_saya'] == 'A'){
+                                        $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_a;
+                                    }elseif($temp['jawaban_saya'] == 'B'){
+                                        $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_b;
+                                    }elseif($temp['jawaban_saya'] == 'C'){
+                                        $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_c;
+                                    }elseif($temp['jawaban_saya'] == 'D'){
+                                        $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_d;
+                                    }elseif($temp['jawaban_saya'] == 'E'){
+                                        $jawabaSaya['jawaban_cermat_5'] = $querySoal->soal_cermat_e;
+                                    }else{
+                                        $jawabaSaya['jawaban_cermat_5'] = '';
+                                    }
+                                    $jawabaSaya['jawaban_cermat_1']=$queryJawabSoal->jawaban_cermat_1;
+                                    $jawabaSaya['jawaban_cermat_2']=$queryJawabSoal->jawaban_cermat_2;
+                                    $jawabaSaya['jawaban_cermat_3']=$queryJawabSoal->jawaban_cermat_3;
+                                    $jawabaSaya['jawaban_cermat_4']=$queryJawabSoal->jawaban_cermat_4;
+    
+                                    $jawabanSoal['soal_cermat_a'] = $querySoal->soal_cermat_a;
+                                    $jawabanSoal['soal_cermat_b'] = $querySoal->soal_cermat_b;
+                                    $jawabanSoal['soal_cermat_c'] = $querySoal->soal_cermat_c;
+                                    $jawabanSoal['soal_cermat_d'] = $querySoal->soal_cermat_d;
+                                    $jawabanSoal['soal_cermat_e'] = $querySoal->soal_cermat_e;
+    
+                                    if(count(array_diff($jawabanSoal,$jawabaSaya))==0){
+                                        $data_jawaban['soaljawaban_cermat_poin'] = 1;
+                                    }else{
+                                        $data_jawaban['soaljawaban_cermat_poin'] = 0;
+                                    }
+                                    $data_jawaban['soaljawaban_cermat_jawab'] = $temp['jawaban_saya'];
+    
+                                    $this->db->where('soaljawaban_jawaban_id',$temp['jawaban_id'])->where('soaljawaban_tessoal_id',$tes_soal_id)->update('cbt_tes_soal_jawaban',$data_jawaban);
                                 }
-                                $jawabaSaya['jawaban_cermat_1']=$queryJawabSoal->jawaban_cermat_1;
-                                $jawabaSaya['jawaban_cermat_2']=$queryJawabSoal->jawaban_cermat_2;
-                                $jawabaSaya['jawaban_cermat_3']=$queryJawabSoal->jawaban_cermat_3;
-                                $jawabaSaya['jawaban_cermat_4']=$queryJawabSoal->jawaban_cermat_4;
-
-                                $jawabanSoal['soal_cermat_a'] = $querySoal->soal_cermat_a;
-                                $jawabanSoal['soal_cermat_b'] = $querySoal->soal_cermat_b;
-                                $jawabanSoal['soal_cermat_c'] = $querySoal->soal_cermat_c;
-                                $jawabanSoal['soal_cermat_d'] = $querySoal->soal_cermat_d;
-                                $jawabanSoal['soal_cermat_e'] = $querySoal->soal_cermat_e;
-
-                                if(count(array_diff($jawabanSoal,$jawabaSaya))==0){
-                                    $data_jawaban['soaljawaban_cermat_poin'] = 1;
-                                }else{
-                                    $data_jawaban['soaljawaban_cermat_poin'] = 0;
-                                }
-                                $data_jawaban['soaljawaban_cermat_jawab'] = $temp['jawaban_saya'];
-
-                                $this->db->where('soaljawaban_jawaban_id',$temp['jawaban_id'])->where('soaljawaban_tessoal_id',$tes_soal_id)->update('cbt_tes_soal_jawaban',$data_jawaban);
                             }
+                               
                         }
                         // $this->cbt_tes_soal_jawaban_model->update_by_tessoal_answer($tes_soal_id, $jawaban, $data_jawaban);
                         // // Mengupdate pilihan jawaban salah
@@ -388,7 +416,9 @@ class Tes_kerjakan extends Tes_Controller {
                 $data['tes_soal'] = $data_soal['tes_soal'];
                 $data['tes_ragu'] = $data_soal['tes_ragu'];
                 $data['tes_soal_id'] = $data_soal['tes_soal_id'];
+                $data['tes_soal_tipe'] = $data_soal['tes_soal_tipe'];
                 $data['tes_soal_nomor'] = $data_soal['tes_soal_nomor'];
+                $data['tes_kecermatan_minute'] = $data_soal['tes_kecermatan_minute'];
                 $data['tes_kecermatan_soal'] = json_decode($data_soal['tes_kecermatan_soal']);
 
             }
@@ -464,6 +494,7 @@ class Tes_kerjakan extends Tes_Controller {
         $data['tes_soal'] = '';
         $data['data'] = 0;
         $pilihanConfig = array();
+        $pilihanConfigJson = json_encode([]);
         if(!empty($tessoal_id) AND !empty($tesuser_id)){
             // Mengecek apakah tes masih berjalan
             // mengambil tesuser_id terus mendapatkan datanya, dicek statusnya dan waktunya
@@ -483,7 +514,7 @@ class Tes_kerjakan extends Tes_Controller {
 
                     // Soal Ragu-ragu
                     $data['tes_ragu'] = $query_soal->tessoal_ragu;
-
+                    $data['tes_soal_tipe'] = $query_soal->soal_tipe;
                     // Mengupdate tessoal_display_time pada table test_log
                     $data_tes_soal['tessoal_display_time'] = date('Y-m-d H:i:s');
                     $this->cbt_tes_soal_model->update('tessoal_id', $tessoal_id, $data_tes_soal);
@@ -491,49 +522,66 @@ class Tes_kerjakan extends Tes_Controller {
                     // mengganti [baseurl] ke alamat sesungguhnya
                     $soal = $query_soal->soal_detail;
                     if($query_soal->soal_tipe==4){
-                        $soal .= '<table border="1" cellspacing="0" style="width:530.9pt">
-                        <tbody>
-                            <tr>
-                                <td colspan="5" style="vertical-align:top; width:93.5pt">
-                                <h1 style="text-align: center;"><strong>KOLOM 1</strong></h1>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:18.7pt">
-                                <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_a.'</strong></h1>
-                                </td>
-                                <td style="width:18.7pt">
-                                <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_b.'</strong></h1>
-                                </td>
-                                <td style="width:18.7pt">
-                                <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_c.'</strong></h1>
-                                </td>
-                                <td style="width:18.7pt">
-                                <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_d.'</strong></h1>
-                                </td>
-                                <td style="width:18.7pt">
-                                <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_e.'</strong></h1>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:18.7pt">
-                                <h4 style="text-align: center;font-size: 30px;"><strong>A</strong></h4>
-                                </td>
-                                <td style="width:18.7pt">
-                                <h4 style="text-align: center;font-size: 30px;"><strong>B</strong></h4>
-                                </td>
-                                <td style="width:18.7pt">
-                                <h4 style="text-align: center;font-size: 30px;"><strong>C</strong></h4>
-                                </td>
-                                <td style="width:18.7pt">
-                                <h4 style="text-align: center;font-size: 30px;"><strong>D</strong></h4>
-                                </td>
-                                <td style="width:18.7pt">
-                                <h4 style="text-align: center;font-size: 30px;"><strong>E</strong></h4>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>';
+                        $soal .= '
+                        <div class="row">
+                            <div class="col-md-8">
+                                <table border="1" cellspacing="0" style="width:530.9pt">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5" style="vertical-align:top; width:93.5pt">
+                                            <h1 style="text-align: center;"><strong>KOLOM '.$query_soal->tessoal_order.'</strong></h1>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:18.7pt">
+                                            <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_a.'</strong></h1>
+                                            </td>
+                                            <td style="width:18.7pt">
+                                            <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_b.'</strong></h1>
+                                            </td>
+                                            <td style="width:18.7pt">
+                                            <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_c.'</strong></h1>
+                                            </td>
+                                            <td style="width:18.7pt">
+                                            <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_d.'</strong></h1>
+                                            </td>
+                                            <td style="width:18.7pt">
+                                            <h1 style="text-align: center; font-size:60px;"><strong>'.$query_soal->soal_cermat_e.'</strong></h1>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:18.7pt">
+                                            <h4 style="text-align: center;font-size: 30px;"><strong>A</strong></h4>
+                                            </td>
+                                            <td style="width:18.7pt">
+                                            <h4 style="text-align: center;font-size: 30px;"><strong>B</strong></h4>
+                                            </td>
+                                            <td style="width:18.7pt">
+                                            <h4 style="text-align: center;font-size: 30px;"><strong>C</strong></h4>
+                                            </td>
+                                            <td style="width:18.7pt">
+                                            <h4 style="text-align: center;font-size: 30px;"><strong>D</strong></h4>
+                                            </td>
+                                            <td style="width:18.7pt">
+                                            <h4 style="text-align: center;font-size: 30px;"><strong>E</strong></h4>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-md-12 text-center mt-5">
+                                        <br>
+                                        <div style="margin:auto; padding-top:5px;"><h3>Durasi: </h3></div>
+                                        <h3 style="font-size:4rem; ">
+                                            <span class="test-timer font-weight-bold" style="color: brown;" id="test-timer-minute">00:00</span>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        ';
                     }
 
                     $soal = str_replace("[base_url]", base_url(), $soal);
@@ -617,10 +665,7 @@ class Tes_kerjakan extends Tes_Controller {
                         $query_jawaban = $this->cbt_tes_soal_jawaban_model->get_by_tessoal($query_soal->tessoal_id);
                         if($query_jawaban->num_rows()>0){
                             $query_jawaban = $query_jawaban->result();
-                          	// echo '<pre>';
-                            // print_r($query_jawaban);
-                            // echo '</pre>';
-                            // exit;
+                         
                             foreach ($query_jawaban as $jawaban) {
                              $pilihanConfig[] =array(
                                 'tessoal_id'=>$query_soal->tessoal_id,
@@ -633,34 +678,48 @@ class Tes_kerjakan extends Tes_Controller {
                              );
                             }
                         }
+                         	// echo '<pre>';
+                            // print_r($pilihanConfig);
+                            // echo '</pre>';
+                            // exit;
                         $pilihanConfigJson = json_encode($pilihanConfig,JSON_PRETTY_PRINT);
 
-                        $soal = $soal.'<table style="width: 250px" border="1" id="table-jawaban-cermat">
-                                <thead>
-                                <tr>
-                                    <th scope="col" colspan="5" class="text-center pt-0 pb-0 pl-0 pr-0" id="table-row-question"><span style=" font-size: 60px;" id="cermat-jawaban-clue">
-                                    '.$pilihanConfig[0]['satu'].'
-                                    '.$pilihanConfig[0]['dua'].'
-                                    '.$pilihanConfig[0]['tiga'].'
-                                    '.$pilihanConfig[0]['empat'].'
-                                    </span></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr style="font-size: 30px;font-weight: bold;">
-                                    <td class="text-center pt-0 pb-0 row-answer" id="a" onclick="cermatJawab(1)"><span>A</span></td>
-                                    <td class="text-center pt-0 pb-0 row-answer" id="b" onclick="cermatJawab(2)"><span>B</span></td>
-                                    <td class="text-center pt-0 pb-0 row-answer" id="c" onclick="cermatJawab(3)"><span>C</span></td>
-                                    <td class="text-center pt-0 pb-0 row-answer" id="d" onclick="cermatJawab(4)"><span>D</span></td>
-                                    <td class="text-center pt-0 pb-0 row-answer" id="e" onclick="cermatJawab(5)"><span>E</span></td>
-                                </tr>
-                                </tbody>
-                            </table>';
+                        $soal = $soal.'
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <table style="width: 250px" border="1" id="table-jawaban-cermat">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" colspan="5" class="text-center pt-0 pb-0 pl-0 pr-0" id="table-row-question"><span style=" font-size: 60px;" id="cermat-jawaban-clue">
+                                                '.(isset($pilihanConfig[0]['satu'])?$pilihanConfig[0]['satu']:"").'
+                                                '.(isset($pilihanConfig[0]['dua'])?$pilihanConfig[0]['dua']:"").'
+                                                '.(isset($pilihanConfig[0]['tiga'])?$pilihanConfig[0]['tiga']:"").'
+                                                '.(isset($pilihanConfig[0]['empat'])?$pilihanConfig[0]['empat']:"").'
+                                                </span></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr style="font-size: 30px;font-weight: bold;">
+                                                <td class="text-center pt-0 pb-0 row-answer" id="a" onclick="cermatJawab(1)"><span>A</span></td>
+                                                <td class="text-center pt-0 pb-0 row-answer" id="b" onclick="cermatJawab(2)"><span>B</span></td>
+                                                <td class="text-center pt-0 pb-0 row-answer" id="c" onclick="cermatJawab(3)"><span>C</span></td>
+                                                <td class="text-center pt-0 pb-0 row-answer" id="d" onclick="cermatJawab(4)"><span>D</span></td>
+                                                <td class="text-center pt-0 pb-0 row-answer" id="e" onclick="cermatJawab(5)"><span>E</span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                            ';
                             
                     }
                     $soal = $soal.'</div>';
                     $data['tes_soal'] = $soal;
                     $data['tes_kecermatan_soal'] = $pilihanConfigJson;
+                    $data['tes_kecermatan_minute'] = (Int)$query_soal->soal_cermat_time;
+                    
                 }
             }else{
                 $data['data'] = 2;

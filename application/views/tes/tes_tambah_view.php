@@ -154,6 +154,7 @@
                                     <option value="1">Pilihan Ganda</option>
                                     <option value="2">Essay</option>
                                     <option value="3">Jawaban Singkat</option>
+                                    <option value="4">Kecermatan</option>
                                 </select>
                             </div>
                         </div>

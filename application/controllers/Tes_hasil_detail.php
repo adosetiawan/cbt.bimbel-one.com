@@ -98,6 +98,8 @@ class Tes_hasil_detail extends Tes_Controller {
 				$record[] = 'Essay';
 			}else if($temp->soal_tipe==3){
 				$record[] = 'Jawaban Singkat';
+			}else if($temp->soal_tipe==4){
+				$record[] = 'Kecermatan';
 			}
 
 			$soal = $temp->soal_detail;
@@ -112,12 +114,67 @@ class Tes_hasil_detail extends Tes_Controller {
 				';
 			}
 
-            $jawaban_table = '
-            	<table class="table" border="0">
-            		<tr>
-                      <td colspan="4">'.$soal.'</td>
-                    </tr>
-            ';
+			if($temp->soal_tipe==4){
+				$jawaban_table = '
+					<table class="table" border="0">
+						<tr>
+						<td colspan="4" >
+							<table border="1" cellspacing="0" style="width:530.9pt">
+								<tbody>
+									
+									<tr>
+										<td style="width:18.7pt">
+										<h1 style="text-align: center;"><strong>'.$temp->soal_cermat_a.'</strong></h1>
+										</td>
+										<td style="width:18.7pt">
+										<h1 style="text-align: center;"><strong>'.$temp->soal_cermat_b.'</strong></h1>
+										</td>
+										<td style="width:18.7pt">
+										<h1 style="text-align: center;"><strong>'.$temp->soal_cermat_c.'</strong></h1>
+										</td>
+										<td style="width:18.7pt">
+										<h1 style="text-align: center;"><strong>'.$temp->soal_cermat_d.'</strong></h1>
+										</td>
+										<td style="width:18.7pt">
+											<h1 style="text-align: center;"><strong>'.$temp->soal_cermat_e.'</strong></h1>
+										</td>
+										<td style="width:18.7pt;background: #8BC34A;">
+											<h1 style="text-align: center;"><strong>'.$temp->tessoal_nilai.'</strong></h1>
+										</td>
+									</tr>
+									<tr>
+										<td style="width:18.7pt">
+										<h4 style="text-align: center;"><strong>A</strong></h4>
+										</td>
+										<td style="width:18.7pt">
+										<h4 style="text-align: center;"><strong>B</strong></h4>
+										</td>
+										<td style="width:18.7pt">
+										<h4 style="text-align: center;"><strong>C</strong></h4>
+										</td>
+										<td style="width:18.7pt">
+										<h4 style="text-align: center;"><strong>D</strong></h4>
+										</td>
+										<td style="width:18.7pt">
+										<h4 style="text-align: center;"><strong>E</strong></h4>
+										</td>
+										<td style="width:18.7pt;background: #8BC34A;">
+											<h4 style="text-align: center;"><strong>POIN</strong></h4>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							</td>
+						</tr>
+				';
+			}else{
+				$jawaban_table = '
+				<table class="table" border="0">
+						<tr>
+						<td colspan="4">'.$soal.'</td>
+						</tr>
+				';
+			}
 
             // cek tipe soal
             // Jika soal adalah jenis pilihan ganda
@@ -185,7 +242,79 @@ class Tes_hasil_detail extends Tes_Controller {
 		                <td width="90%" colspan="2"><div style="width:100%;">'.$temp->tessoal_jawaban_text.'</div></td>
 		            </tr>
 	            ';
-            }
+            }else if($temp->soal_tipe==4){
+				$query_jawaban = $this->cbt_tes_soal_jawaban_model->get_by_tessoal($temp->tessoal_id);
+	            if($query_jawaban->num_rows()>0){
+	            	$query_jawaban = $query_jawaban->result();
+	            	$a = 0;
+	            	$jawaban_table = $jawaban_table.'
+	            			<tr>
+		                      	<td width="5%"> </td>
+		                      	<td width="5%">Kunci</td>
+		                      	<td width="5%">Pilihan</td>
+		                      	<td width="85%">Poin</td>
+		                    </tr>
+	            		';
+	            	foreach ($query_jawaban as $jawaban) {
+	            		$temp_jawaban = $jawaban->jawaban_detail;
+						$temp_jawaban = str_replace("[base_url]", base_url(), $temp_jawaban);
+
+						if($jawaban->soaljawaban_cermat_jawab  == 'A'){
+							$jawabaSaya = $temp->soal_cermat_a;
+						}elseif($jawaban->soaljawaban_cermat_jawab  == 'B'){
+							$jawabaSaya = $temp->soal_cermat_b;
+						}elseif($jawaban->soaljawaban_cermat_jawab  == 'C'){
+							$jawabaSaya = $temp->soal_cermat_c;
+						}elseif($jawaban->soaljawaban_cermat_jawab  == 'D'){
+							$jawabaSaya = $temp->soal_cermat_d;
+						}elseif($jawaban->soaljawaban_cermat_jawab  == 'E'){
+							$jawabaSaya = $temp->soal_cermat_e;
+						}else{
+							$jawabaSaya = '';
+						}
+
+	            		$jawaban_table = $jawaban_table.'
+	            			<tr>
+		                      	<td width="5%">'.++$a.'.</td>
+		                      	<td width="5%">
+									<table style="width: 120px" border="1" id="table-jawaban-cermat">
+									<thead>
+										<tr>
+											<th scope="col" colspan="5" class="text-center " style="padding:0"  id="table-row-question">
+											<span style=" font-size: 20px;" id="cermat-jawaban-clue">
+											'.$jawaban->jawaban_cermat_1.'
+											'.$jawaban->jawaban_cermat_2.'
+											'.$jawaban->jawaban_cermat_3.'
+											'.$jawaban->jawaban_cermat_4.'
+											</span></th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							  </td>
+		                      	<td width="5%">
+								  <table style="width: 40px" border="1" id="table-jawaban-cermat">
+								  <thead>
+								  <tr>
+									  <th scope="col" colspan="5" class="text-center " style="padding:0" id="table-row-question">
+									  <span style=" font-size: 20px;" id="cermat-jawaban-clue">
+									  '.$jawabaSaya.'
+									  </span></th>
+								  </tr>
+								  </thead>
+								  <tbody>
+								  </tbody>
+							  </table>
+								</td>
+		                      	<td width="85%">  <span style=" font-size: 20px;" id="cermat-jawaban-clue">
+								  '.$jawaban->soaljawaban_cermat_poin.'
+								  </span></td>
+		                    </tr>
+	            		';
+	            	}
+	            }
+			}
             $jawaban_table = $jawaban_table.'</table>';
 
             $record[] = $jawaban_table;
