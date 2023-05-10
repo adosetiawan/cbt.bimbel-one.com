@@ -719,7 +719,7 @@ class Tes_kerjakan extends Tes_Controller {
                         $soal = $soal.'
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <table style="width: 250px" border="1" id="table-jawaban-cermat">
+                                        <table style="width: 350px" border="1" id="table-jawaban-cermat">
                                             <thead>
                                             <tr>
                                                 <th scope="col" colspan="5" class="text-center pt-0 pb-0 pl-0 pr-0" id="table-row-question"><span style=" font-size: 60px;" id="cermat-jawaban-clue">

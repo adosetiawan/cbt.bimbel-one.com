@@ -312,6 +312,7 @@
         if (--cermatMinute < 0) {
             var tes_soal_jml = parseInt($('#tes-soal-jml').val());
             posisi_soal_nomor += 1;
+            console.log(jawabanCermat);
             if(!jawabanCermat['soal-jawaban']){
                 jawabanCermat['soal-jawaban'] = [0,1,2,3];
             }
@@ -322,7 +323,9 @@
             }else if(posisi_soal_nomor == (tes_soal_jml+1)){
                 jawab();
                 clicksKecermatan = 0;
-                cermat_hentikan_tes();
+                setTimeout(()=>{
+                    cermat_hentikan_tes();
+                },1000);
                 //cermatMinute = 0;
             }
            clearInterval(countDownCermat);
@@ -403,7 +406,9 @@
                     jawab();
                     //if(display){
                         cermatMinute = 0;
-                        cermat_hentikan_tes();
+                        setTimeout(()=>{
+                            cermat_hentikan_tes();
+                        },1000);
                     //}
                 }
             }

@@ -285,73 +285,73 @@
                     <table border="1">
                         <tr>
                             <td style="width:50px;text-align:center">1</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td style="width:50px;text-align:center">2</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td style="width:50px;text-align:center">3</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td style="width:50px;text-align:center">4</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td style="width:50px;text-align:center">5</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td style="width:50px;text-align:center">6</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td style="width:50px;text-align:center">7</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td style="width:50px;text-align:center">8</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td style="width:50px;text-align:center">9</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td style="width:50px;text-align:center">10</td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="1"></td>
-                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="1"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-a[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-b[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-c[]" maxlength="3"></td>
+                            <td><input type="text" style="width:50px;text-align:center" name="jawaban-d[]" maxlength="3"></td>
                         </tr>
                         <tr>
                             <td colspan="5">

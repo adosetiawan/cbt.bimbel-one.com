@@ -77,7 +77,8 @@ class Cbt_tesgrup_model extends CI_Model{
     }
 	
 	function get_datatable($start, $rows, $grup_id){
-		$this->db->where('(tstgrp_grup_id="'.$grup_id.'" AND tes_begin_time<=NOW() AND tes_end_time>=NOW())')
+		//$this->db->where('(tstgrp_grup_id="'.$grup_id.'" AND tes_begin_time<=NOW() AND tes_end_time>=NOW())')
+		$this->db->where('(tstgrp_grup_id="'.$grup_id.'"  AND tes_end_time>=NOW())')
                  ->from($this->table)
                  ->join('cbt_tes', 'cbt_tesgrup.tstgrp_tes_id = cbt_tes.tes_id')
                  ->order_by('tes_begin_time ASC, tes_nama ASC')
@@ -87,7 +88,8 @@ class Cbt_tesgrup_model extends CI_Model{
     
     function get_datatable_count($grup_id){
 		$this->db->select('COUNT(*) AS hasil')
-                 ->where('(tstgrp_grup_id="'.$grup_id.'" AND tes_begin_time<=NOW() AND tes_end_time>=NOW())')
+                 //->where('(tstgrp_grup_id="'.$grup_id.'" AND tes_begin_time<=NOW() AND tes_end_time>=NOW())')
+                 ->where('(tstgrp_grup_id="'.$grup_id.'"  AND tes_end_time>=NOW())')
                  ->join('cbt_tes', 'cbt_tesgrup.tstgrp_tes_id = cbt_tes.tes_id')
                  ->from($this->table);
         return $this->db->get();

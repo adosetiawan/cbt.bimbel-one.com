@@ -95,10 +95,19 @@ class Tes_hasil extends Member_Controller {
             }else if($pilihan=='buka'){
             	foreach( $tesuser_id as $kunci => $isi ) {
                     if($isi=="on"){
+				
+            			$querySoal = $this->cbt_tes_soal_model->get_by_testuser($kunci);
+						if($querySoal->num_rows()>0){
+							foreach($querySoal->result() AS $soal){
+								if($soal->soal_tipe == 4){
+									$data_tessoal['tessoal_change_time']=NULL;
+									$data_tessoal['tessoal_display_cermaat_time']=NULL;
+									$this->cbt_tes_soal_model->update('tessoal_id',$soal->tessoal_id, $data_tessoal);
+								}
+							}
+						}
                     	$data_tes['tesuser_status']=1;
-						$data_tessoal['tessoal_change_time']=NULL;
-						$data_tessoal['tessoal_display_cermaat_time']=NULL;
-            			$this->cbt_tes_soal_model->update('tessoal_tesuser_id', $kunci, $data_tessoal);
+
             			$this->cbt_tes_user_model->update('tesuser_id', $kunci, $data_tes);
                     }
                 }

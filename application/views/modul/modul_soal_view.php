@@ -75,19 +75,19 @@
                                     </tr>
                                     <tr>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-B')"  name="cermat-A" id="tambah-cermat-A" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-B')"  name="cermat-A" id="tambah-cermat-A" maxlength="3">
                                         </td>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-C')"  name="cermat-B" id="tambah-cermat-B" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-C')"  name="cermat-B" id="tambah-cermat-B" maxlength="3">
                                         </td>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-D')"  name="cermat-C" id="tambah-cermat-C" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-D')"  name="cermat-C" id="tambah-cermat-C" maxlength="3">
                                         </td>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-E')"  name="cermat-D" id="tambah-cermat-D" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'tambah-cermat-E')"  name="cermat-D" id="tambah-cermat-D" maxlength="3">
                                         </td>
                                         <td style="width:100px;">
-                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'cermat-time-minute')"  name="cermat-E" id="tambah-cermat-E" maxlength="1">
+                                            <input type="text" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;" onkeyup="clickEvent(this,'cermat-time-minute')"  name="cermat-E" id="tambah-cermat-E" maxlength="3">
                                         </td>
                                         <td style="width:100px;background:#3c8dbc;">
                                             <input type="number" style="text-align:center;height:100px;width:100%;font-size:80px;font-weight: bold;background:#3c8dbc;" onkeyup="clickEvent(this,'cermat-time-minute')"  name="cermat-time-minute" id="cermat-time-minute" maxlength="1">
